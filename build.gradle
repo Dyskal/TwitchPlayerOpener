@@ -1,0 +1,37 @@
+plugins {
+    id 'java'
+    id "com.github.johnrengelman.shadow" version "5.1.0"
+    id "edu.sc.seis.launch4j" version "2.4.6"
+}
+
+group 'dyskal.twitchplayeropener'
+version '1.5'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    implementation 'com.formdev:flatlaf:0.15'
+    implementation 'com.google.code.gson:gson:2.8.6'
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'dyskal.TwitchPlayerOpener'
+        )
+    }
+}
+
+createExe {
+    outfile = 'TwitchPlayerOpener.exe'
+    mainClassName = 'dyskal.TwitchPlayerOpener'
+    copyConfigurable = project.tasks.shadowJar.outputs.files
+    icon = "${projectDir}/src/main/resources/assets/icon.ico"
+    jar = "lib/${project.tasks.shadowJar.archiveName}"
+}
