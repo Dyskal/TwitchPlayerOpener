@@ -2,5 +2,3 @@
 .idea
 build
 out
-# Project exclude paths
-/gradle/
