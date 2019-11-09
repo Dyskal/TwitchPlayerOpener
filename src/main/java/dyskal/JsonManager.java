@@ -14,18 +14,7 @@ public class JsonManager {
     Gson gson = new Gson();
     File dir = new File(System.getenv("APPDATA")+"\\Twitch Player Opener");
     File file = new File(dir+"\\streamers.json");
-
-    public void makeDir() throws IOException {
-        if (!file.exists()) {
-            IGNORE_RESULT(dir.mkdir());
-            IGNORE_RESULT(file.createNewFile());
-            Writer writerCreator = new FileWriter(file);
-            Gson creator = new GsonBuilder().setPrettyPrinting().create();
-            String[] base = {"placeholder"};
-            creator.toJson(base, writerCreator);
-            writerCreator.close();
-        }
-    }
+    private boolean recreate = false;
 
     public JsonManager() {
         try {
@@ -34,8 +23,27 @@ public class JsonManager {
             Type streamersType = new TypeToken<ArrayList<String>>(){}.getType();
             streamers = gson.fromJson(reader, streamersType);
             reader.close();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            recreate = true;
+            try {
+                makeDir();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    public void makeDir() throws IOException {
+        if ((!file.exists() || recreate)) {
+            IGNORE_RESULT(dir.mkdir());
+            IGNORE_RESULT(file.createNewFile());
+            Writer writerCreator = new FileWriter(file);
+            Gson creator = new GsonBuilder().setPrettyPrinting().create();
+            String[] base = {"placeholder"};
+            creator.toJson(base, writerCreator);
+            writerCreator.close();
+            recreate=false;
         }
     }
 
