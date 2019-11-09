@@ -5,7 +5,7 @@ plugins {
 }
 
 group 'dyskal.twitchplayeropener'
-version '1.5'
+version '1.6'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -29,7 +29,7 @@ jar {
 }
 
 createExe {
-    outfile = 'TwitchPlayerOpener.exe'
+    outfile = "TwitchPlayerOpener-${project.version}.exe"
     mainClassName = 'dyskal.TwitchPlayerOpener'
     copyConfigurable = project.tasks.shadowJar.outputs.files
     icon = "${projectDir}/src/main/resources/assets/icon.ico"
