@@ -1,6 +1,6 @@
 # Twitch Player Opener
 
-Application to open Twitch Player easily and recieve only the video stream.
+Application to open Twitch Player easily and receive only the video stream.
 
 You can add a streamer to the list by putting its name and pressing open.
 
