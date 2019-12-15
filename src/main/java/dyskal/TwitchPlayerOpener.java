@@ -19,14 +19,11 @@ import static javax.swing.Box.createVerticalBox;
             this.setPreferredSize(new Dimension(600, 400));
             this.setIconImage(new ImageIcon((Objects.requireNonNull(getClass().getClassLoader().getResource("assets/icon.png")))).getImage());
 
+            TomlManager tomlManager = new TomlManager();
 
-
-            JsonManager jsonManager = new JsonManager();
-
-            //<editor-fold desc="Parameters">
             Box parameters = createHorizontalBox();
             final String[] parametersUsed = {"&enableExtensions=true","&muted=false","&volume=0.5"};
-            //<editor-fold desc="Extensions">
+
             JCheckBox extensions = new JCheckBox("Enable Extensions ?", true);
             extensions.addItemListener(event -> {
                 int state = event.getStateChange();
@@ -36,8 +33,7 @@ import static javax.swing.Box.createVerticalBox;
                     parametersUsed[0] =  "&enableExtensions=false";
                 }
             });
-            //</editor-fold>
-            //<editor-fold desc="Muted">
+
             JCheckBox muted = new JCheckBox("Mute Stream ?", false);
             muted.addItemListener(event -> {
                 int state = event.getStateChange();
@@ -47,12 +43,10 @@ import static javax.swing.Box.createVerticalBox;
                     parametersUsed[1] = "&muted=false";
                 }
             });
-            //</editor-fold>
+
             parameters.add(extensions);
             parameters.add(muted);
-            //</editor-fold>
 
-            //<editor-fold desc="Volume Parameters">
             Box volumeParameters = createVerticalBox();
             JLabel volumeLabel = new JLabel();
             JLabel spacer = new JLabel();
@@ -70,23 +64,19 @@ import static javax.swing.Box.createVerticalBox;
             volumeParameters.add(volumeSlider);
             volumeParameters.add(spacer);
             volumeParameters.add(volumeLabel);
-            //</editor-fold>
 
-            //<editor-fold desc="Streamers List">
             Box base = createHorizontalBox();
-            JComboBox<String> streamerList = new JComboBox<>(jsonManager.getStreamers().toArray(new String[0]));
+            JComboBox<String> streamerList = new JComboBox<>(tomlManager.getStreamers().toArray(new String[0]));
             streamerList.setEditable(true);
             streamerList.setMaximumSize(new Dimension(200, 100));
-            //</editor-fold>
 
-            //<editor-fold desc="Button Open">
             JButton buttonOpen = new JButton("Open");
             buttonOpen.addActionListener(event -> {
                 String selectedStreamer = ((String) streamerList.getSelectedItem());
-                boolean value = jsonManager.getStreamers().contains(selectedStreamer);
+                boolean value = tomlManager.getStreamers().contains(selectedStreamer);
                 if (!value) {
                     streamerList.addItem(selectedStreamer);
-                    jsonManager.addStreamers(selectedStreamer);
+                    tomlManager.addStreamers(selectedStreamer);
                 }
                 String parametersSelected = parametersUsed[0]+parametersUsed[1]+"&player=popout"+parametersUsed[2];
                 String finalUrl = "https://player.twitch.tv/?channel="+selectedStreamer+parametersSelected;
@@ -120,19 +110,18 @@ import static javax.swing.Box.createVerticalBox;
                     }
                 }
             });
+
             JButton remove = new JButton("Remove");
             remove.addActionListener(event -> {
                 String selectedStreamer = (String) streamerList.getSelectedItem();
                 streamerList.removeItem(selectedStreamer);
-                jsonManager.removeStreamers(selectedStreamer);
+                tomlManager.removeStreamers(selectedStreamer);
             });
             base.add(streamerList);
             base.add(spacer);
             base.add(buttonOpen);
             base.add(remove);
-            //</editor-fold>
 
-            //<editor-fold desc="Body">
             Box body = createVerticalBox();
             Dimension minSize = new Dimension(10, 20);
             Dimension prefSize = new Dimension(20, 20);
@@ -144,7 +133,6 @@ import static javax.swing.Box.createVerticalBox;
             body.add(new Box.Filler(minSize, prefSize, maxSize));
             body.add(volumeParameters);
             body.add(new Box.Filler(minSize, prefSize, maxSize));
-            //</editor-fold>
 
             this.add(body);
             this.pack();

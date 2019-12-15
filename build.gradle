@@ -1,14 +1,11 @@
 plugins {
     id 'java'
-    id "com.github.johnrengelman.shadow" version "5.1.0"
+    id "com.github.johnrengelman.shadow" version "5.2.0"
     id "edu.sc.seis.launch4j" version "2.4.6"
 }
 
 group 'dyskal.twitchplayeropener'
-version '1.6'
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+version '1.7'
 
 repositories {
     mavenCentral()
@@ -16,8 +13,8 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.formdev:flatlaf:0.15'
-    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.formdev:flatlaf:0.21'
+    implementation 'com.electronwill.night-config:toml:3.6.2'
 }
 
 jar {
