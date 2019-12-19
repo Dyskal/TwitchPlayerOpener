@@ -1,7 +1,6 @@
 package dyskal;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ItemEvent;
@@ -20,6 +19,7 @@ import static javax.swing.Box.createVerticalBox;
             this.setIconImage(new ImageIcon((Objects.requireNonNull(getClass().getClassLoader().getResource("assets/icon.png")))).getImage());
 
             TomlManager tomlManager = new TomlManager();
+            TwitchManager twitchManager = new TwitchManager();
 
             Box parameters = createHorizontalBox();
             final String[] parametersUsed = {"&enableExtensions=true","&muted=false","&volume=0.5"};
@@ -66,13 +66,14 @@ import static javax.swing.Box.createVerticalBox;
             volumeParameters.add(volumeLabel);
 
             Box base = createHorizontalBox();
-            JComboBox<String> streamerList = new JComboBox<>(tomlManager.getStreamers().toArray(new String[0]));
+            JComboBox<String> streamerList = new JComboBox<>(twitchManager.getStreamers().toArray(new String[0]));
+            streamerList.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 12));
             streamerList.setEditable(true);
             streamerList.setMaximumSize(new Dimension(200, 100));
 
             JButton buttonOpen = new JButton("Open");
             buttonOpen.addActionListener(event -> {
-                String selectedStreamer = ((String) streamerList.getSelectedItem());
+                String selectedStreamer = ((String) Objects.requireNonNull(streamerList.getSelectedItem())).replaceAll("[ ✔| ❌]", "");
                 boolean value = tomlManager.getStreamers().contains(selectedStreamer);
                 if (!value) {
                     streamerList.addItem(selectedStreamer);

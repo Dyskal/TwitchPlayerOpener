@@ -1,7 +1,6 @@
 package dyskal;
 
 import com.electronwill.nightconfig.core.file.FileConfig;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +9,7 @@ public class TomlManager {
     File dir = new File(System.getenv("APPDATA")+"\\Twitch Player Opener");
     File file = new File(dir+"\\streamers.toml");
     FileConfig config = FileConfig.of(file);
-    private List<String> streamers = new ArrayList<>();
+    private ArrayList<String> streamers = new ArrayList<>();
     private boolean recreate = false;
 
     public TomlManager(){
@@ -31,6 +30,7 @@ public class TomlManager {
 
     public void TomlWriter(){
         config.remove("streamers");
+        streamers.remove(" ");
         config.add("streamers", streamers);
         config.save();
     }
@@ -52,16 +52,18 @@ public class TomlManager {
     private static void IGNORE_RESULT(boolean b){}
 
     public ArrayList<String> getStreamers() {
-        return (ArrayList<String>) streamers;
+        return streamers;
     }
 
     public void addStreamers(String newStreamer){
         streamers.add(newStreamer);
         TomlWriter();
+        new TwitchManager();
     }
 
     public void removeStreamers(String newStreamer){
         streamers.remove(newStreamer);
         TomlWriter();
+        new TwitchManager();
     }
 }
