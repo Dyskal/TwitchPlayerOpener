@@ -1,7 +1,7 @@
 plugins {
     id 'java'
-    id "com.github.johnrengelman.shadow" version "5.2.0"
-    id "edu.sc.seis.launch4j" version "2.4.6"
+    id "com.github.johnrengelman.shadow" version "5.2.0"        //https://plugins.gradle.org/plugin/com.github.johnrengelman.shadow
+    id "edu.sc.seis.launch4j" version "2.4.6"                   //https://plugins.gradle.org/plugin/edu.sc.seis.launch4j
 }
 
 group 'dyskal.twitchplayeropener'
@@ -14,9 +14,9 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.formdev:flatlaf:0.22'
-    implementation 'com.electronwill.night-config:toml:3.6.2'
-    implementation 'com.github.twitch4j:twitch4j:1.0.0-alpha.17'
+    implementation 'com.formdev:flatlaf:0.27'                   //https://bintray.com/jformdesigner/flatlaf/flatlaf/_latestVersion
+    implementation 'com.electronwill.night-config:toml:3.6.2'   //https://bintray.com/bintray/jcenter/com.electronwill.night-config%3Atoml/_latestVersion
+    implementation 'com.github.twitch4j:twitch4j:1.0.0-alpha.19'//https://oss.jfrog.org/artifactory/libs-release/com/github/twitch4j/twitch4j/
 }
 
 jar {

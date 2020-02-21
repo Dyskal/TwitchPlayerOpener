@@ -4,6 +4,8 @@ import com.formdev.flatlaf.FlatDarculaLaf;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ItemEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -27,7 +29,7 @@ import static javax.swing.Box.createVerticalBox;
             JCheckBox extensions = new JCheckBox("Enable Extensions ?", true);
             extensions.addItemListener(event -> {
                 int state = event.getStateChange();
-                if (state== ItemEvent.SELECTED){
+                if (state==ItemEvent.SELECTED){
                     parametersUsed[0] = "&enableExtensions=true";
                 } else {
                     parametersUsed[0] =  "&enableExtensions=false";
@@ -134,6 +136,18 @@ import static javax.swing.Box.createVerticalBox;
             body.add(new Box.Filler(minSize, prefSize, maxSize));
             body.add(volumeParameters);
             body.add(new Box.Filler(minSize, prefSize, maxSize));
+
+            this.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowOpened(WindowEvent e) {
+                    tomlManager.TomlCleanup();
+                }
+
+                @Override
+                public void windowClosing(WindowEvent e) {
+                    tomlManager.TomlCleanup();
+                }
+            });
 
             this.add(body);
             this.pack();

@@ -23,13 +23,15 @@ public class TwitchManager {
         ArrayList<String> listName = tomlManager.getStreamers();
         BidiMap<String,String> nameIdDict = new DualHashBidiMap<>();
 
+        tomlManager.TomlCleanup();
+
         UserList idByUser = twitchClient.getHelix().getUsers("",null, listName).execute();
         idByUser.getUsers().forEach(users -> nameIdDict.put(users.getDisplayName(), users.getId()));
 
         StreamList isOnline = twitchClient.getHelix().getStreams("", "", "", null, null, null, null, null, listName).execute();
         isOnline.getStreams().forEach(stream -> streamers.add(nameIdDict.getKey(stream.getUserId())));
 
-        listName.forEach(item ->{
+        listName.forEach(item -> {
             if (streamers.contains(item)){
                 streamers.remove(item);
                 streamers.add(addEmoji(item, "\u2714"));

@@ -28,9 +28,18 @@ public class TomlManager {
         }
     }
 
+    public void TomlCleanup(){
+        streamers.remove(" ");
+        streamers.forEach(item -> {
+            if (item.contains("✔") || item.contains("❌")) {
+                streamers.set(streamers.indexOf(item), item.replaceAll("[ ✔|✔| ❌|❌]", ""));
+            }
+        });
+    }
+
     public void TomlWriter(){
         config.remove("streamers");
-        streamers.remove(" ");
+        TomlCleanup();
         config.add("streamers", streamers);
         config.save();
     }
