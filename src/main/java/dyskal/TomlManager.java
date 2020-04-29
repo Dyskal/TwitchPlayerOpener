@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TomlManager {
-    File dir = new File(System.getenv("APPDATA")+"\\Twitch Player Opener");
+    File dir = new File(System.getenv("APPDATA")+"\\Dyskal\\Twitch Player Opener");
     File file = new File(dir+"\\streamers.toml");
     FileConfig config = FileConfig.of(file);
     private ArrayList<String> streamers = new ArrayList<>();
