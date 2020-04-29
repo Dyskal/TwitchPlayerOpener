@@ -15,154 +15,154 @@ import static dyskal.TomlManager.cleanup;
 import static javax.swing.Box.createHorizontalBox;
 import static javax.swing.Box.createVerticalBox;
 
-    public class TwitchPlayerOpener extends JFrame {
-        public TwitchPlayerOpener() {
-            super("Twitch Player Opener");
-            this.setPreferredSize(new Dimension(600, 400));
-            this.setIconImage(new ImageIcon((Objects.requireNonNull(getClass().getClassLoader().getResource("assets/icon.png")))).getImage());
+public class TwitchPlayerOpener extends JFrame {
+    public TwitchPlayerOpener() {
+        super("Twitch Player Opener");
+        this.setPreferredSize(new Dimension(600, 400));
+        this.setIconImage(new ImageIcon((Objects.requireNonNull(getClass().getClassLoader().getResource("assets/icon.png")))).getImage());
 
-            TomlManager tomlManager = new TomlManager();
-            TwitchManager twitchManager = new TwitchManager();
+        TomlManager tomlManager = new TomlManager();
+        TwitchManager twitchManager = new TwitchManager();
 
-            Box parameters = createHorizontalBox();
-            final String[] parametersUsed = {"&enableExtensions=true","&muted=false","&volume=0.5"};
+        Box parameters = createHorizontalBox();
+        final String[] parametersUsed = {"&enableExtensions=true","&muted=false","&volume=0.5"};
 
-            JCheckBox extensions = new JCheckBox("Enable Extensions ?", true);
-            extensions.addItemListener(event -> {
-                int state = event.getStateChange();
-                if (state==ItemEvent.SELECTED){
-                    parametersUsed[0] = "&enableExtensions=true";
-                } else {
-                    parametersUsed[0] =  "&enableExtensions=false";
-                }
-            });
+        JCheckBox extensions = new JCheckBox("Enable Extensions ?", true);
+        extensions.addItemListener(event -> {
+            int state = event.getStateChange();
+            if (state==ItemEvent.SELECTED){
+                parametersUsed[0] = "&enableExtensions=true";
+            } else {
+                parametersUsed[0] =  "&enableExtensions=false";
+            }
+        });
 
-            JCheckBox muted = new JCheckBox("Mute Stream ?", false);
-            muted.addItemListener(event -> {
-                int state = event.getStateChange();
-                if (state==ItemEvent.SELECTED){
-                    parametersUsed[1] = "&muted=true";
-                } else {
-                    parametersUsed[1] = "&muted=false";
-                }
-            });
+        JCheckBox muted = new JCheckBox("Mute Stream ?", false);
+        muted.addItemListener(event -> {
+            int state = event.getStateChange();
+            if (state==ItemEvent.SELECTED){
+                parametersUsed[1] = "&muted=true";
+            } else {
+                parametersUsed[1] = "&muted=false";
+            }
+        });
 
-            parameters.add(extensions);
-            parameters.add(muted);
+        parameters.add(extensions);
+        parameters.add(muted);
 
-            Box volumeParameters = createVerticalBox();
-            JLabel volumeLabel = new JLabel();
-            JLabel spacer = new JLabel();
-            JSlider volumeSlider = new JSlider(0, 100, 50);
-            spacer.setText("                      ");
-            volumeLabel.setText("Volume is at 50%");
-            volumeLabel.setFont(volumeLabel.getFont().deriveFont(15f));
-            volumeLabel.setAlignmentX(CENTER_ALIGNMENT);
-            volumeSlider.setMaximumSize(new Dimension(500, 20));
-            volumeSlider.addChangeListener(event -> {
-                float volume = (float)volumeSlider.getValue() / 100;
-                parametersUsed[2]= "&volume="+volume;
-                volumeLabel.setText("Volume is at "+volumeSlider.getValue()+"%");
-            });
-            volumeParameters.add(volumeSlider);
-            volumeParameters.add(spacer);
-            volumeParameters.add(volumeLabel);
+        Box volumeParameters = createVerticalBox();
+        JLabel volumeLabel = new JLabel();
+        JLabel spacer = new JLabel();
+        JSlider volumeSlider = new JSlider(0, 100, 50);
+        spacer.setText("                      ");
+        volumeLabel.setText("Volume is at 50%");
+        volumeLabel.setFont(volumeLabel.getFont().deriveFont(15f));
+        volumeLabel.setAlignmentX(CENTER_ALIGNMENT);
+        volumeSlider.setMaximumSize(new Dimension(500, 20));
+        volumeSlider.addChangeListener(event -> {
+            float volume = (float)volumeSlider.getValue() / 100;
+            parametersUsed[2]= "&volume="+volume;
+            volumeLabel.setText("Volume is at "+volumeSlider.getValue()+"%");
+        });
+        volumeParameters.add(volumeSlider);
+        volumeParameters.add(spacer);
+        volumeParameters.add(volumeLabel);
 
-            Box base = createHorizontalBox();
-            JComboBox<String> streamerList = new JComboBox<>(twitchManager.getStreamers().toArray(new String[0]));
-            streamerList.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 12));
-            streamerList.setEditable(true);
-            streamerList.setMaximumSize(new Dimension(200, 100));
+        Box base = createHorizontalBox();
+        JComboBox<String> streamerList = new JComboBox<>(twitchManager.getStreamers().toArray(new String[0]));
+        streamerList.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 12));
+        streamerList.setEditable(true);
+        streamerList.setMaximumSize(new Dimension(200, 100));
 
-            JButton buttonOpen = new JButton("Open");
-            buttonOpen.addActionListener(event -> {
-                String selectedStreamer = cleanup(((String) Objects.requireNonNull(streamerList.getSelectedItem())));
-                boolean value = tomlManager.getStreamers().contains(selectedStreamer);
-                if (!value) {
-                    streamerList.addItem(selectedStreamer);
-                    tomlManager.addStreamers(selectedStreamer);
-                }
-                String parametersSelected = parametersUsed[0]+parametersUsed[1]+"&player=popout"+parametersUsed[2];
-                String finalUrl = "https://player.twitch.tv/?channel="+selectedStreamer+parametersSelected;
-                File chrome64 = new File(System.getenv("ProgramFiles(x86)")+"\\Google\\Chrome\\Application");
-                File chrome32 = new File(System.getenv("ProgramFiles")+"\\Google\\Chrome\\Application");
-                if(chrome64.exists()){
-                    try {
-                        Runtime.getRuntime().exec(chrome64+"\\chrome.exe"+" "+"--app="+finalUrl+" "+"--disable-extensions");
-                    } catch (IOException e) {
-                        try {
-                            Desktop.getDesktop().browse(new URL((finalUrl)).toURI());
-                        } catch (IOException | URISyntaxException ex) {
-                            ex.printStackTrace();
-                        }
-                    }
-                } else if (chrome32.exists()){
-                    try {
-                        Runtime.getRuntime().exec(chrome32+"\\chrome.exe"+" "+"--app="+finalUrl+" "+"--disable-extensions");
-                    } catch (IOException e) {
-                        try {
-                            Desktop.getDesktop().browse(new URL((finalUrl)).toURI());
-                        } catch (IOException | URISyntaxException ex) {
-                            ex.printStackTrace();
-                        }
-                    }
-                } else {
+        JButton buttonOpen = new JButton("Open");
+        buttonOpen.addActionListener(event -> {
+            String selectedStreamer = cleanup(((String) Objects.requireNonNull(streamerList.getSelectedItem())));
+            boolean value = tomlManager.getStreamers().contains(selectedStreamer);
+            if (!value) {
+                streamerList.addItem(selectedStreamer);
+                tomlManager.addStreamers(selectedStreamer);
+            }
+            String parametersSelected = parametersUsed[0]+parametersUsed[1]+"&player=popout"+parametersUsed[2];
+            String finalUrl = "https://player.twitch.tv/?channel="+selectedStreamer+parametersSelected;
+            File chrome64 = new File(System.getenv("ProgramFiles(x86)")+"\\Google\\Chrome\\Application");
+            File chrome32 = new File(System.getenv("ProgramFiles")+"\\Google\\Chrome\\Application");
+            if(chrome64.exists()){
+                try {
+                    Runtime.getRuntime().exec(chrome64+"\\chrome.exe"+" "+"--app="+finalUrl+" "+"--disable-extensions");
+                } catch (IOException e) {
                     try {
                         Desktop.getDesktop().browse(new URL((finalUrl)).toURI());
                     } catch (IOException | URISyntaxException ex) {
                         ex.printStackTrace();
                     }
                 }
-            });
-
-            JButton remove = new JButton("Remove");
-            remove.addActionListener(event -> {
-                String selectedStreamer = (String) streamerList.getSelectedItem();
-                streamerList.removeItem(selectedStreamer);
-                tomlManager.removeStreamers(selectedStreamer);
-            });
-            base.add(streamerList);
-            base.add(spacer);
-            base.add(buttonOpen);
-            base.add(remove);
-
-            Box body = createVerticalBox();
-            Dimension minSize = new Dimension(10, 20);
-            Dimension prefSize = new Dimension(20, 20);
-            Dimension maxSize = new Dimension(50, 70);
-            body.add(new Box.Filler(minSize, prefSize, maxSize));
-            body.add(base);
-            body.add(new Box.Filler(minSize, prefSize, maxSize));
-            body.add(parameters);
-            body.add(new Box.Filler(minSize, prefSize, maxSize));
-            body.add(volumeParameters);
-            body.add(new Box.Filler(minSize, prefSize, maxSize));
-
-            this.addWindowListener(new WindowAdapter() {
-                @Override
-                public void windowOpened(WindowEvent e) {
-                    tomlManager.TomlCleanup();
+            } else if (chrome32.exists()){
+                try {
+                    Runtime.getRuntime().exec(chrome32+"\\chrome.exe"+" "+"--app="+finalUrl+" "+"--disable-extensions");
+                } catch (IOException e) {
+                    try {
+                        Desktop.getDesktop().browse(new URL((finalUrl)).toURI());
+                    } catch (IOException | URISyntaxException ex) {
+                        ex.printStackTrace();
+                    }
                 }
-
-                @Override
-                public void windowClosing(WindowEvent e) {
-                    tomlManager.TomlCleanup();
+            } else {
+                try {
+                    Desktop.getDesktop().browse(new URL((finalUrl)).toURI());
+                } catch (IOException | URISyntaxException ex) {
+                    ex.printStackTrace();
                 }
-            });
-
-            this.add(body);
-            this.pack();
-            this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            this.setLocationRelativeTo(null);
-            this.setVisible(true);
-        }
-
-        public static void main(String[] args) {
-            try {
-                UIManager.setLookAndFeel(new FlatDarculaLaf());
-            } catch (Exception ex) {
-                ex.printStackTrace();
             }
-            SwingUtilities.invokeLater(TwitchPlayerOpener::new);
-        }
+        });
+
+        JButton remove = new JButton("Remove");
+        remove.addActionListener(event -> {
+            String selectedStreamer = (String) streamerList.getSelectedItem();
+            streamerList.removeItem(selectedStreamer);
+            tomlManager.removeStreamers(selectedStreamer);
+        });
+        base.add(streamerList);
+        base.add(spacer);
+        base.add(buttonOpen);
+        base.add(remove);
+
+        Box body = createVerticalBox();
+        Dimension minSize = new Dimension(10, 20);
+        Dimension prefSize = new Dimension(20, 20);
+        Dimension maxSize = new Dimension(50, 70);
+        body.add(new Box.Filler(minSize, prefSize, maxSize));
+        body.add(base);
+        body.add(new Box.Filler(minSize, prefSize, maxSize));
+        body.add(parameters);
+        body.add(new Box.Filler(minSize, prefSize, maxSize));
+        body.add(volumeParameters);
+        body.add(new Box.Filler(minSize, prefSize, maxSize));
+
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowOpened(WindowEvent e) {
+                tomlManager.TomlCleanup();
+            }
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                tomlManager.TomlCleanup();
+            }
+        });
+
+        this.add(body);
+        this.pack();
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
     }
+
+    public static void main(String[] args) {
+        try {
+            UIManager.setLookAndFeel(new FlatDarculaLaf());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        SwingUtilities.invokeLater(TwitchPlayerOpener::new);
+    }
+}
