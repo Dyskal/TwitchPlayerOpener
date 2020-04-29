@@ -11,6 +11,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Objects;
 
+import static dyskal.TomlManager.cleanup;
 import static javax.swing.Box.createHorizontalBox;
 import static javax.swing.Box.createVerticalBox;
 
@@ -75,7 +76,7 @@ import static javax.swing.Box.createVerticalBox;
 
             JButton buttonOpen = new JButton("Open");
             buttonOpen.addActionListener(event -> {
-                String selectedStreamer = ((String) Objects.requireNonNull(streamerList.getSelectedItem())).replaceAll("[ ✔| ❌]", "");
+                String selectedStreamer = cleanup(((String) Objects.requireNonNull(streamerList.getSelectedItem())));
                 boolean value = tomlManager.getStreamers().contains(selectedStreamer);
                 if (!value) {
                     streamerList.addItem(selectedStreamer);

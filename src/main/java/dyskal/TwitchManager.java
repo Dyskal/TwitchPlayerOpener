@@ -9,7 +9,7 @@ import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 import java.util.ArrayList;
 
 public class TwitchManager {
-    private ArrayList<String> streamers = new ArrayList<>();
+    private final ArrayList<String> streamers = new ArrayList<>();
 
     public String addEmoji(String str, String add) {
         StringBuilder sb = new StringBuilder(str);

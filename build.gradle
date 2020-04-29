@@ -14,7 +14,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.formdev:flatlaf:0.29'                   //https://bintray.com/jformdesigner/flatlaf/flatlaf/_latestVersion
+    implementation 'com.formdev:flatlaf:0.33'                   //https://bintray.com/jformdesigner/flatlaf/flatlaf/_latestVersion
     implementation 'com.electronwill.night-config:toml:3.6.2'   //https://bintray.com/bintray/jcenter/com.electronwill.night-config%3Atoml/_latestVersion
     implementation 'com.github.twitch4j:twitch4j:1.0.0-alpha.19'//https://oss.jfrog.org/artifactory/libs-release/com/github/twitch4j/twitch4j/
 }

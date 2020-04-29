@@ -30,11 +30,21 @@ public class TomlManager {
 
     public void TomlCleanup(){
         streamers.remove(" ");
-        streamers.forEach(item -> {
-            if (item.contains("✔") || item.contains("❌")) {
-                streamers.set(streamers.indexOf(item), item.replaceAll("[ ✔|✔| ❌|❌]", ""));
+        streamers.forEach(string -> {
+            if (!string.matches("^[a-zA-Z_0-9]+$")){
+                streamers.set(streamers.indexOf(string), string.replaceAll("\\W+", ""));
             }
         });
+    }
+
+    public static String cleanup(String string) {
+        String last;
+        if (string.matches("^[a-zA-Z_0-9]+$")) {
+            last = string;
+        } else {
+            last = string.replaceAll("\\W+", "");
+        }
+        return last;
     }
 
     public void TomlWriter(){
