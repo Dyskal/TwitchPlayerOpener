@@ -54,21 +54,19 @@ public class TomlManager {
         config.save();
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     public void makeFile() throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(file));
         if (!file.exists() || recreate || br.readLine() == null) {
             List<String> placeholder = new ArrayList<>();
             placeholder.add("placeholder");
-            IGNORE_RESULT(dir.mkdir());
-            IGNORE_RESULT(file.createNewFile());
+            dir.mkdir();
+            file.createNewFile();
             config.set("streamers", placeholder);
             config.save();
             recreate = false;
         }
     }
-
-    @SuppressWarnings("unused")
-    private static void IGNORE_RESULT(boolean b){}
 
     public ArrayList<String> getStreamers() {
         return streamers;
