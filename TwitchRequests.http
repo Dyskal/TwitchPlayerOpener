@@ -1,0 +1,9 @@
+POST https://id.twitch.tv/oauth2/token?client_id={{client_id}}&client_secret={{client_secret}}&grant_type=client_credentials
+
+###
+
+GET https://id.twitch.tv/oauth2/validate
+Authorization: OAuth {{access_token}}
+
+###
+
