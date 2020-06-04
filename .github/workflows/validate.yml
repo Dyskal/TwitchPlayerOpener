@@ -13,4 +13,4 @@ jobs:
         with:
           url: https://id.twitch.tv/oauth2/validate
           method: GET
-          headers: "Authorization: OAuth 5u5evma2iv3rt34kblycykm60olvkl"
+          headers: '{"Authorization: OAuth 5u5evma2iv3rt34kblycykm60olvkl"}'
