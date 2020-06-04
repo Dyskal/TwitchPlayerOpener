@@ -1,0 +1,16 @@
+name: Validate Twitch Token
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Web Request Action
+        uses: Satak/webrequest-action@v1.2.3
+        with:
+          url: https://id.twitch.tv/oauth2/validate
+          method: GET
+          headers: "Authorization: OAuth 5u5evma2iv3rt34kblycykm60olvkl"
