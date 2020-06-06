@@ -11,7 +11,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Objects;
 
-import static dyskal.TomlManager.cleanup;
+import static dyskal.TomlManager.cleaner;
 import static javax.swing.Box.createHorizontalBox;
 import static javax.swing.Box.createVerticalBox;
 
@@ -76,7 +76,7 @@ public class TwitchPlayerOpener extends JFrame {
 
         JButton buttonOpen = new JButton("Open");
         buttonOpen.addActionListener(event -> {
-            String selectedStreamer = cleanup(((String) Objects.requireNonNull(streamerList.getSelectedItem())));
+            String selectedStreamer = cleaner(((String) Objects.requireNonNull(streamerList.getSelectedItem())));
             boolean value = tomlManager.getStreamers().contains(selectedStreamer);
             if (!value) {
                 streamerList.addItem(selectedStreamer);
@@ -141,12 +141,12 @@ public class TwitchPlayerOpener extends JFrame {
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowOpened(WindowEvent e) {
-                tomlManager.TomlCleanup();
+                tomlManager.fileCleaner();
             }
 
             @Override
             public void windowClosing(WindowEvent e) {
-                tomlManager.TomlCleanup();
+                tomlManager.fileCleaner();
             }
         });
 

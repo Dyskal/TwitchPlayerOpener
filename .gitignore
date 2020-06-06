@@ -4,4 +4,4 @@ build
 out
 *.log
 *.lnk
-http-client.private.env.json
+http*.json

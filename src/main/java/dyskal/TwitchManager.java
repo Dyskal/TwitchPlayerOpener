@@ -11,19 +11,13 @@ import java.util.ArrayList;
 public class TwitchManager {
     private final ArrayList<String> streamers = new ArrayList<>();
 
-    public String addEmoji(String str, String add) {
-        StringBuilder sb = new StringBuilder(str);
-        sb.insert(str.length(), " "+add);
-        return sb.toString();
-    }
-
     public TwitchManager() {
         TwitchClient twitchClient = TwitchClientBuilder.builder().withEnableHelix(true).withClientId("dvzvtw5bg1mgiehkx773oqbc4eudmi").build();
         TomlManager tomlManager = new TomlManager();
         ArrayList<String> listName = tomlManager.getStreamers();
         BidiMap<String,String> nameIdDict = new DualHashBidiMap<>();
 
-        tomlManager.TomlCleanup();
+        tomlManager.fileCleaner();
 
         UserList idByUser = twitchClient.getHelix().getUsers("5u5evma2iv3rt34kblycykm60olvkl",null, listName).execute();
         idByUser.getUsers().forEach(users -> nameIdDict.put(users.getDisplayName(), users.getId()));
@@ -39,6 +33,12 @@ public class TwitchManager {
                 streamers.add(addEmoji(item, "\u274C"));
             }
         });
+    }
+
+    public String addEmoji(String str, String add) {
+        StringBuilder sb = new StringBuilder(str);
+        sb.insert(str.length(), " "+add);
+        return sb.toString();
     }
 
     public ArrayList<String> getStreamers() { return streamers; }
