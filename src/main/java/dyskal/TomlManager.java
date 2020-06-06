@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TomlManager {
-    private final File dir = new File(System.getenv("APPDATA")+"\\Dyskal\\Twitch Player Opener");
+    private final File dir = new File(System.getenv("APPDATA")+"\\Dyskal\\TwitchPlayerOpener");
     private final File file = new File(dir+"\\streamers.toml");
     private final FileConfig config = FileConfig.of(file);
     private ArrayList<String> streamers = new ArrayList<>();
@@ -30,8 +30,7 @@ public class TomlManager {
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public void makeFile() throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader(file));
-        if (!file.exists() || recreate || br.readLine() == null) {
+        if (!dir.exists() || !file.exists() || recreate) {
             List<String> placeholder = new ArrayList<>();
             placeholder.add("placeholder");
             dir.mkdir();

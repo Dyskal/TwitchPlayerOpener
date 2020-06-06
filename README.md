@@ -6,4 +6,4 @@ A simple application to open Twitch Player easily and receive only the video str
 
 You can add a streamer to the list by putting its name and pressing open.
 
-The list file is located at ```"%AppData%\Roaming\Dyskal\Twitch Player Opener\streamers.toml"```
+The list file is located at ```"%AppData%\Roaming\Dyskal\TwitchPlayerOpener\streamers.toml"```
