@@ -82,7 +82,7 @@ public class TwitchPlayerOpener extends JFrame {
                 streamerList.addItem(selectedStreamer);
                 tomlManager.addStreamers(selectedStreamer);
             }
-            String parametersSelected = parametersUsed[0]+parametersUsed[1]+"&player=popout"+parametersUsed[2];
+            String parametersSelected = parametersUsed[0]+parametersUsed[1]+"&player=popout"+parametersUsed[2]+"&parent=dyskal";
             String finalUrl = "https://player.twitch.tv/?channel="+selectedStreamer+parametersSelected;
             File chrome64 = new File(System.getenv("ProgramFiles(x86)")+"\\Google\\Chrome\\Application");
             File chrome32 = new File(System.getenv("ProgramFiles")+"\\Google\\Chrome\\Application");

@@ -19,10 +19,11 @@ public class TwitchManager {
 
         tomlManager.fileCleaner();
 
-        UserList idByUser = twitchClient.getHelix().getUsers("5u5evma2iv3rt34kblycykm60olvkl",null, listName).execute();
+        String token = "3jleck9uxq0v3l94rmcg08x616mxmr";
+        UserList idByUser = twitchClient.getHelix().getUsers(token,null, listName).execute();
         idByUser.getUsers().forEach(users -> nameIdDict.put(users.getDisplayName(), users.getId()));
 
-        StreamList isOnline = twitchClient.getHelix().getStreams("5u5evma2iv3rt34kblycykm60olvkl", "", "", null, null, null, null, null, listName).execute();
+        StreamList isOnline = twitchClient.getHelix().getStreams(token, "", "", null, null, null, null, null, listName).execute();
         isOnline.getStreams().forEach(stream -> streamers.add(nameIdDict.getKey(stream.getUserId())));
 
         listName.forEach(item -> {

@@ -2,6 +2,7 @@
 .idea
 build
 out
+launch4j
 *.log
 *.lnk
 http*.json

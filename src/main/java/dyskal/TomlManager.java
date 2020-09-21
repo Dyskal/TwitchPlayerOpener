@@ -33,7 +33,7 @@ public class TomlManager {
         if (!dir.exists() || !file.exists() || recreate) {
             List<String> placeholder = new ArrayList<>();
             placeholder.add("placeholder");
-            dir.mkdir();
+            dir.mkdirs();
             file.createNewFile();
             config.set("streamers", placeholder);
             config.save();
@@ -78,7 +78,7 @@ public class TomlManager {
     }
 
     public void removeStreamers(String newStreamer){
-        streamers.remove(newStreamer);
+        streamers.remove(newStreamer.replaceAll("\\W+", ""));
         writer();
         new TwitchManager();
     }
