@@ -22,7 +22,7 @@ public class TwitchManager {
         UserList idByUser = twitchClient.getHelix().getUsers("",null, listName).execute();
         idByUser.getUsers().forEach(users -> nameIdDict.put(users.getDisplayName(), users.getId()));
 
-        StreamList isOnline = twitchClient.getHelix().getStreams("","", "", null, null, null, null, null, listName).execute();
+        StreamList isOnline = twitchClient.getHelix().getStreams("","", "", null, null, null, null, listName).execute();
         isOnline.getStreams().forEach(stream -> streamers.add(nameIdDict.getKey(stream.getUserId())));
 
         listName.forEach(item -> {
