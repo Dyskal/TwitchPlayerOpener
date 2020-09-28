@@ -12,18 +12,17 @@ public class TwitchManager {
     private final ArrayList<String> streamers = new ArrayList<>();
 
     public TwitchManager() {
-        TwitchClient twitchClient = TwitchClientBuilder.builder().withEnableHelix(true).withClientId("dvzvtw5bg1mgiehkx773oqbc4eudmi").build();
+        TwitchClient twitchClient = TwitchClientBuilder.builder().withEnableHelix(true).withClientId(System.getenv("CLIENT_ID")).withClientSecret(System.getenv("CLIENT_SECRET")).build();
         TomlManager tomlManager = new TomlManager();
         ArrayList<String> listName = tomlManager.getStreamers();
         BidiMap<String,String> nameIdDict = new DualHashBidiMap<>();
 
         tomlManager.fileCleaner();
 
-        String token = "3jleck9uxq0v3l94rmcg08x616mxmr";
-        UserList idByUser = twitchClient.getHelix().getUsers(token,null, listName).execute();
+        UserList idByUser = twitchClient.getHelix().getUsers("",null, listName).execute();
         idByUser.getUsers().forEach(users -> nameIdDict.put(users.getDisplayName(), users.getId()));
 
-        StreamList isOnline = twitchClient.getHelix().getStreams(token, "", "", null, null, null, null, null, listName).execute();
+        StreamList isOnline = twitchClient.getHelix().getStreams("","", "", null, null, null, null, null, listName).execute();
         isOnline.getStreams().forEach(stream -> streamers.add(nameIdDict.getKey(stream.getUserId())));
 
         listName.forEach(item -> {

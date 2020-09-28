@@ -119,7 +119,7 @@ public class TwitchPlayerOpener extends JFrame {
         remove.addActionListener(event -> {
             String selectedStreamer = (String) streamerList.getSelectedItem();
             streamerList.removeItem(selectedStreamer);
-            tomlManager.removeStreamers(selectedStreamer);
+            tomlManager.removeStreamers(Objects.requireNonNull(selectedStreamer));
         });
         base.add(streamerList);
         base.add(spacer);
