@@ -9,7 +9,7 @@ You can add a streamer to the list by putting its name and pressing open.
 The list file is located at ```"%AppData%\Roaming\Dyskal\TwitchPlayerOpener\streamers.toml"```
 
 You should create 2 environnement variables
-- CLIENT_ID with your client id
-- CLIENT_SECRET with your client secret
+-   CLIENT_ID with your client id
+-   CLIENT_SECRET with your client secret
 
-If you don't have thoses, create an app at https://dev.twitch.tv/console/apps/create
+If you don't have thoses, create an app at <https://dev.twitch.tv/console/apps/create>
