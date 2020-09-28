@@ -1,4 +1,5 @@
 # Twitch Player Opener
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/999c89a569cb46ebaba4e11efe9d0d5f)](https://app.codacy.com/gh/Dyskal/TwitchPlayerOpener?utm_source=github.com&utm_medium=referral&utm_content=Dyskal/TwitchPlayerOpener&utm_campaign=Badge_Grade_Settings)
 [![CircleCI](https://circleci.com/gh/Dyskal/TwitchPlayerOpener.svg?style=shield)](https://circleci.com/gh/Dyskal/TwitchPlayerOpener)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/774d670f509d421082f2344ef3c61a8d)](https://www.codacy.com/manual/Dyskal/TwitchPlayerOpener?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Dyskal/TwitchPlayerOpener&amp;utm_campaign=Badge_Grade)
 
