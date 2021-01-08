@@ -1,18 +1,20 @@
 package dyskal;
 
 import com.electronwill.nightconfig.core.file.FileConfig;
-import java.io.*;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TomlManager {
-    private final File dir = new File(System.getenv("APPDATA")+"\\Dyskal\\TwitchPlayerOpener");
-    private final File file = new File(dir+"\\streamers.toml");
+    private final File dir = new File(System.getenv("APPDATA") + "\\Dyskal\\TwitchPlayerOpener");
+    private final File file = new File(dir + "\\streamers.toml");
     private final FileConfig config = FileConfig.of(file);
     private ArrayList<String> streamers = new ArrayList<>();
     private boolean recreate = false;
 
-    public TomlManager(){
+    public TomlManager() {
         try {
             makeFile();
             config.load();
@@ -28,6 +30,16 @@ public class TomlManager {
         }
     }
 
+    public static String cleaner(String string) {
+        String last;
+        if (string.matches("^[a-zA-Z_0-9]+$")) {
+            last = string;
+        } else {
+            last = string.replaceAll("\\W+", "");
+        }
+        return last;
+    }
+
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public void makeFile() throws IOException {
         if (!dir.exists() || !file.exists() || recreate) {
@@ -41,26 +53,16 @@ public class TomlManager {
         }
     }
 
-    public void fileCleaner(){
+    public void fileCleaner() {
         streamers.remove(" ");
         streamers.forEach(string -> {
-            if (!string.matches("^[a-zA-Z_0-9]+$")){
+            if (!string.matches("^[a-zA-Z_0-9]+$")) {
                 streamers.set(streamers.indexOf(string), string.replaceAll("\\W+", ""));
             }
         });
     }
 
-    public static String cleaner(String string) {
-        String last;
-        if (string.matches("^[a-zA-Z_0-9]+$")) {
-            last = string;
-        } else {
-            last = string.replaceAll("\\W+", "");
-        }
-        return last;
-    }
-
-    public void writer(){
+    public void writer() {
         config.remove("streamers");
         fileCleaner();
         config.add("streamers", streamers);
@@ -71,13 +73,13 @@ public class TomlManager {
         return streamers;
     }
 
-    public void addStreamers(String newStreamer){
+    public void addStreamers(String newStreamer) {
         streamers.add(newStreamer);
         writer();
         new TwitchManager();
     }
 
-    public void removeStreamers(String newStreamer){
+    public void removeStreamers(String newStreamer) {
         streamers.remove(newStreamer.replaceAll("\\W+", ""));
         writer();
         new TwitchManager();

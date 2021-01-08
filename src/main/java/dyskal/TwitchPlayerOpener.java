@@ -1,46 +1,50 @@
 package dyskal;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.Objects;
 
 import static dyskal.TomlManager.cleaner;
+import static java.awt.Component.CENTER_ALIGNMENT;
 import static javax.swing.Box.createHorizontalBox;
 import static javax.swing.Box.createVerticalBox;
 
-public class TwitchPlayerOpener extends JFrame {
+public class TwitchPlayerOpener {
     public TwitchPlayerOpener() {
-        super("Twitch Player Opener");
-        this.setPreferredSize(new Dimension(600, 400));
-        this.setIconImage(new ImageIcon((Objects.requireNonNull(getClass().getClassLoader().getResource("assets/icon.png")))).getImage());
+        JFrame frame = new JFrame();
+        frame.setTitle("Twitch Player Opener");
+        frame.setPreferredSize(new Dimension(600, 400));
+        frame.setIconImage(new ImageIcon((Objects.requireNonNull(getClass().getClassLoader().getResource("assets/icon.png")))).getImage());
 
         TomlManager tomlManager = new TomlManager();
         TwitchManager twitchManager = new TwitchManager();
 
         Box parameters = createHorizontalBox();
-        final String[] parametersUsed = {"&enableExtensions=true","&muted=false","&volume=0.5"};
+        final String[] parametersUsed = {"&enableExtensions=true", "&muted=false", "&volume=0.5"};
 
         JCheckBox extensions = new JCheckBox("Enable Extensions ?", true);
         extensions.addItemListener(event -> {
             int state = event.getStateChange();
-            if (state==ItemEvent.SELECTED){
+            if (state == ItemEvent.SELECTED) {
                 parametersUsed[0] = "&enableExtensions=true";
             } else {
-                parametersUsed[0] =  "&enableExtensions=false";
+                parametersUsed[0] = "&enableExtensions=false";
             }
         });
 
         JCheckBox muted = new JCheckBox("Mute Stream ?", false);
         muted.addItemListener(event -> {
             int state = event.getStateChange();
-            if (state==ItemEvent.SELECTED){
+            if (state == ItemEvent.SELECTED) {
                 parametersUsed[1] = "&muted=true";
             } else {
                 parametersUsed[1] = "&muted=false";
@@ -60,9 +64,9 @@ public class TwitchPlayerOpener extends JFrame {
         volumeLabel.setAlignmentX(CENTER_ALIGNMENT);
         volumeSlider.setMaximumSize(new Dimension(500, 20));
         volumeSlider.addChangeListener(event -> {
-            float volume = (float)volumeSlider.getValue() / 100;
-            parametersUsed[2]= "&volume="+volume;
-            volumeLabel.setText("Volume is at "+volumeSlider.getValue()+"%");
+            float volume = (float) volumeSlider.getValue() / 100;
+            parametersUsed[2] = "&volume=" + volume;
+            volumeLabel.setText("Volume is at " + volumeSlider.getValue() + "%");
         });
         volumeParameters.add(volumeSlider);
         volumeParameters.add(spacer);
@@ -82,33 +86,33 @@ public class TwitchPlayerOpener extends JFrame {
                 streamerList.addItem(selectedStreamer);
                 tomlManager.addStreamers(selectedStreamer);
             }
-            String parametersSelected = parametersUsed[0]+parametersUsed[1]+"&player=popout"+parametersUsed[2]+"&parent=dyskal";
-            String finalUrl = "https://player.twitch.tv/?channel="+selectedStreamer+parametersSelected;
-            File chrome64 = new File(System.getenv("ProgramFiles(x86)")+"\\Google\\Chrome\\Application");
-            File chrome32 = new File(System.getenv("ProgramFiles")+"\\Google\\Chrome\\Application");
-            if(chrome64.exists()){
+            String parametersSelected = parametersUsed[0] + parametersUsed[1] + "&player=popout" + parametersUsed[2] + "&parent=dyskal";
+            String finalUrl = "https://player.twitch.tv/?channel=" + selectedStreamer + parametersSelected;
+            File chrome64 = new File(System.getenv("ProgramFiles(x86)") + "\\Google\\Chrome\\Application");
+            File chrome32 = new File(System.getenv("ProgramFiles") + "\\Google\\Chrome\\Application");
+            if (chrome64.exists()) {
                 try {
-                    Runtime.getRuntime().exec(chrome64+"\\chrome.exe"+" "+"--app="+finalUrl+" "+"--disable-extensions");
+                    Runtime.getRuntime().exec(chrome64 + "\\chrome.exe" + " " + "--app=" + finalUrl + " " + "--disable-extensions");
                 } catch (IOException e) {
                     try {
-                        Desktop.getDesktop().browse(new URL((finalUrl)).toURI());
+                        Desktop.getDesktop().browse(new URI(finalUrl));
                     } catch (IOException | URISyntaxException ex) {
                         ex.printStackTrace();
                     }
                 }
-            } else if (chrome32.exists()){
+            } else if (chrome32.exists()) {
                 try {
-                    Runtime.getRuntime().exec(chrome32+"\\chrome.exe"+" "+"--app="+finalUrl+" "+"--disable-extensions");
+                    Runtime.getRuntime().exec(chrome32 + "\\chrome.exe" + " " + "--app=" + finalUrl + " " + "--disable-extensions");
                 } catch (IOException e) {
                     try {
-                        Desktop.getDesktop().browse(new URL((finalUrl)).toURI());
+                        Desktop.getDesktop().browse(new URI(finalUrl));
                     } catch (IOException | URISyntaxException ex) {
                         ex.printStackTrace();
                     }
                 }
             } else {
                 try {
-                    Desktop.getDesktop().browse(new URL((finalUrl)).toURI());
+                    Desktop.getDesktop().browse(new URI(finalUrl));
                 } catch (IOException | URISyntaxException ex) {
                     ex.printStackTrace();
                 }
@@ -138,7 +142,7 @@ public class TwitchPlayerOpener extends JFrame {
         body.add(volumeParameters);
         body.add(new Box.Filler(minSize, prefSize, maxSize));
 
-        this.addWindowListener(new WindowAdapter() {
+        frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowOpened(WindowEvent e) {
                 tomlManager.fileCleaner();
@@ -150,11 +154,11 @@ public class TwitchPlayerOpener extends JFrame {
             }
         });
 
-        this.add(body);
-        this.pack();
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setLocationRelativeTo(null);
-        this.setVisible(true);
+        frame.add(body);
+        frame.pack();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 
     public static void main(String[] args) {
