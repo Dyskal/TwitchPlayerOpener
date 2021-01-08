@@ -23,7 +23,7 @@ public class TwitchPlayerOpener {
         JFrame frame = new JFrame();
         frame.setTitle("Twitch Player Opener");
         frame.setPreferredSize(new Dimension(600, 400));
-        frame.setIconImage(new ImageIcon((Objects.requireNonNull(getClass().getClassLoader().getResource("assets/icon.png")))).getImage());
+        frame.setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("assets/icon.png"))).getImage());
 
         TomlManager tomlManager = new TomlManager();
         TwitchManager twitchManager = new TwitchManager();
