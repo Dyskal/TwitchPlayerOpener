@@ -3,8 +3,8 @@ package dyskal;
 import com.formdev.flatlaf.FlatDarculaLaf;
 
 import javax.swing.*;
+import javax.swing.Box.Filler;
 import java.awt.*;
-import java.awt.event.ItemEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -15,8 +15,10 @@ import java.util.Objects;
 
 import static dyskal.TomlManager.cleaner;
 import static java.awt.Component.CENTER_ALIGNMENT;
+import static java.awt.event.ItemEvent.SELECTED;
 import static javax.swing.Box.createHorizontalBox;
 import static javax.swing.Box.createVerticalBox;
+import static javax.swing.JFrame.EXIT_ON_CLOSE;
 
 public class TwitchPlayerOpener {
     public TwitchPlayerOpener() {
@@ -34,7 +36,7 @@ public class TwitchPlayerOpener {
         JCheckBox extensions = new JCheckBox("Enable Extensions ?", true);
         extensions.addItemListener(event -> {
             int state = event.getStateChange();
-            if (state == ItemEvent.SELECTED) {
+            if (state == SELECTED) {
                 parametersUsed[0] = "&enableExtensions=true";
             } else {
                 parametersUsed[0] = "&enableExtensions=false";
@@ -44,7 +46,7 @@ public class TwitchPlayerOpener {
         JCheckBox muted = new JCheckBox("Mute Stream ?", false);
         muted.addItemListener(event -> {
             int state = event.getStateChange();
-            if (state == ItemEvent.SELECTED) {
+            if (state == SELECTED) {
                 parametersUsed[1] = "&muted=true";
             } else {
                 parametersUsed[1] = "&muted=false";
@@ -134,13 +136,13 @@ public class TwitchPlayerOpener {
         Dimension minSize = new Dimension(10, 20);
         Dimension prefSize = new Dimension(20, 20);
         Dimension maxSize = new Dimension(50, 70);
-        body.add(new Box.Filler(minSize, prefSize, maxSize));
+        body.add(new Filler(minSize, prefSize, maxSize));
         body.add(base);
-        body.add(new Box.Filler(minSize, prefSize, maxSize));
+        body.add(new Filler(minSize, prefSize, maxSize));
         body.add(parameters);
-        body.add(new Box.Filler(minSize, prefSize, maxSize));
+        body.add(new Filler(minSize, prefSize, maxSize));
         body.add(volumeParameters);
-        body.add(new Box.Filler(minSize, prefSize, maxSize));
+        body.add(new Filler(minSize, prefSize, maxSize));
 
         frame.addWindowListener(new WindowAdapter() {
             @Override
@@ -156,7 +158,7 @@ public class TwitchPlayerOpener {
 
         frame.add(body);
         frame.pack();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }

@@ -5,10 +5,11 @@ import com.electronwill.nightconfig.core.file.FileConfig;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
+
+import static java.lang.System.getenv;
 
 public class TomlManager {
-    private final File dir = new File(System.getenv("APPDATA") + "\\Dyskal\\TwitchPlayerOpener");
+    private final File dir = new File(getenv("APPDATA") + "\\Dyskal\\TwitchPlayerOpener");
     private final File file = new File(dir + "\\streamers.toml");
     private final FileConfig config = FileConfig.of(file);
     private ArrayList<String> streamers = new ArrayList<>();
@@ -43,7 +44,7 @@ public class TomlManager {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public void makeFile() throws IOException {
         if (!dir.exists() || !file.exists() || recreate) {
-            List<String> placeholder = new ArrayList<>();
+            ArrayList<String> placeholder = new ArrayList<>();
             placeholder.add("placeholder");
             dir.mkdirs();
             file.createNewFile();

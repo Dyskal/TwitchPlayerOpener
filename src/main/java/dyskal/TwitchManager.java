@@ -4,19 +4,20 @@ import com.github.twitch4j.TwitchClient;
 import com.github.twitch4j.TwitchClientBuilder;
 import com.github.twitch4j.helix.domain.StreamList;
 import com.github.twitch4j.helix.domain.UserList;
-import org.apache.commons.collections4.BidiMap;
 import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 
 import java.util.ArrayList;
+
+import static java.lang.System.getenv;
 
 public class TwitchManager {
     private final ArrayList<String> streamers = new ArrayList<>();
 
     public TwitchManager() {
-        TwitchClient twitchClient = TwitchClientBuilder.builder().withEnableHelix(true).withClientId(System.getenv("CLIENT_ID")).withClientSecret(System.getenv("CLIENT_SECRET")).build();
+        TwitchClient twitchClient = TwitchClientBuilder.builder().withEnableHelix(true).withClientId(getenv("CLIENT_ID")).withClientSecret(getenv("CLIENT_SECRET")).build();
         TomlManager tomlManager = new TomlManager();
         ArrayList<String> listName = tomlManager.getStreamers();
-        BidiMap<String, String> nameIdDict = new DualHashBidiMap<>();
+        DualHashBidiMap<String, String> nameIdDict = new DualHashBidiMap<>();
 
         tomlManager.fileCleaner();
 
