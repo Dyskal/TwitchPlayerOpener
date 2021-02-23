@@ -3,7 +3,9 @@ package dyskal;
 import com.electronwill.nightconfig.core.file.FileConfig;
 import net.harawata.appdirs.AppDirsFactory;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -42,7 +44,8 @@ public class TomlManager {
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public void makeFile() throws IOException {
-        if (!dir.exists() || !file.exists() || recreate) {
+        BufferedReader br = new BufferedReader(new FileReader(file));
+        if (!dir.exists() || !file.exists() || br.readLine() == null || recreate) {
             ArrayList<String> placeholder = new ArrayList<>();
             placeholder.add("placeholder");
             dir.mkdirs();
