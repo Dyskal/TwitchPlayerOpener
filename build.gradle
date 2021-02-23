@@ -9,15 +9,16 @@ version '2.5'
 
 repositories {
     mavenCentral()
-    jcenter()
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
-    implementation 'com.formdev:flatlaf:1.0'                    //https://bintray.com/jformdesigner/flatlaf/flatlaf/_latestVersion
-    implementation 'com.electronwill.night-config:toml:3.6.3'   //https://bintray.com/bintray/jcenter/com.electronwill.night-config%3Atoml/_latestVersion
-    implementation 'com.github.twitch4j:twitch4j:1.2.0'         //https://bintray.com/twitch4j/maven/twitch4j/_latestVersion
-    implementation 'org.apache.commons:commons-collections4:4.4'//https://bintray.com/bintray/jcenter/org.apache.commons%3Acommons-collections4/_latestVersion
-    implementation 'org.slf4j:slf4j-nop:2.0.0-alpha1'           //https://bintray.com/bintray/jcenter/org.slf4j%3Aslf4j-nop/_latestVersion
+    implementation 'com.formdev:flatlaf:1.0'                    //https://search.maven.org/artifact/com.formdev/flatlaf
+    implementation 'com.electronwill.night-config:toml:3.6.3'   //https://search.maven.org/artifact/com.electronwill.night-config/toml
+    implementation 'com.github.twitch4j:twitch4j:1.2.0'         //https://jitpack.io/#twitch4j/twitch4j
+    implementation 'org.apache.commons:commons-collections4:4.4'//https://search.maven.org/artifact/org.apache.commons/commons-collections4
+    implementation 'org.slf4j:slf4j-nop:1.7.30'                 //https://search.maven.org/artifact/org.slf4j/slf4j-nop
+    implementation 'net.harawata:appdirs:1.2.1'                 //https://search.maven.org/artifact/net.harawata/appdirs
 }
 
 jar {

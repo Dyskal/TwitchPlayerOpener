@@ -1,15 +1,14 @@
 package dyskal;
 
 import com.electronwill.nightconfig.core.file.FileConfig;
+import net.harawata.appdirs.AppDirsFactory;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static java.lang.System.getenv;
-
 public class TomlManager {
-    private final File dir = new File(getenv("APPDATA") + "\\Dyskal\\TwitchPlayerOpener");
+    private final File dir = new File(AppDirsFactory.getInstance().getUserConfigDir("TwitchPlayerOpener", null, "Dyskal", true));
     private final File file = new File(dir + "\\streamers.toml");
     private final FileConfig config = FileConfig.of(file);
     private ArrayList<String> streamers = new ArrayList<>();
