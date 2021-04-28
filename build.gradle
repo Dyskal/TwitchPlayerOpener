@@ -1,11 +1,11 @@
 plugins {
     id 'java'                                                   //https://gradle.org/install
-    id "com.github.johnrengelman.shadow" version "6.1.0"        //https://plugins.gradle.org/plugin/com.github.johnrengelman.shadow
-    id "edu.sc.seis.launch4j" version "2.4.9"                   //https://plugins.gradle.org/plugin/edu.sc.seis.launch4j
+    id 'com.github.johnrengelman.shadow' version '7.0.0'        //https://plugins.gradle.org/plugin/com.github.johnrengelman.shadow
+    id 'edu.sc.seis.launch4j' version '2.5.0'                   //https://plugins.gradle.org/plugin/edu.sc.seis.launch4j
 }
 
 group 'dyskal.twitchplayeropener'
-version '2.5'
+version '2.6'
 
 repositories {
     mavenCentral()
@@ -13,10 +13,9 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.formdev:flatlaf:1.0'                    //https://search.maven.org/artifact/com.formdev/flatlaf
+    implementation 'com.formdev:flatlaf:1.1.2'                  //https://search.maven.org/artifact/com.formdev/flatlaf
     implementation 'com.electronwill.night-config:toml:3.6.3'   //https://search.maven.org/artifact/com.electronwill.night-config/toml
-    implementation 'com.github.twitch4j:twitch4j:1.2.0'         //https://jitpack.io/#twitch4j/twitch4j
-    implementation 'org.apache.commons:commons-collections4:4.4'//https://search.maven.org/artifact/org.apache.commons/commons-collections4
+    implementation 'com.github.twitch4j:twitch4j:1.2.1'         //https://jitpack.io/#twitch4j/twitch4j
     implementation 'org.slf4j:slf4j-nop:1.7.30'                 //https://search.maven.org/artifact/org.slf4j/slf4j-nop
     implementation 'net.harawata:appdirs:1.2.1'                 //https://search.maven.org/artifact/net.harawata/appdirs
 }

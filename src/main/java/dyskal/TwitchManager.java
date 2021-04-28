@@ -1,33 +1,30 @@
 package dyskal;
 
 import com.github.twitch4j.TwitchClient;
-import com.github.twitch4j.TwitchClientBuilder;
-import com.github.twitch4j.helix.domain.StreamList;
-import com.github.twitch4j.helix.domain.UserList;
-import org.apache.commons.collections4.bidimap.DualHashBidiMap;
+import com.github.twitch4j.helix.domain.User;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import static com.github.twitch4j.TwitchClientBuilder.builder;
 import static java.lang.System.getenv;
+import static java.util.stream.Collectors.toMap;
 
-public class TwitchManager {
+class TwitchManager {
     private final ArrayList<String> streamers = new ArrayList<>();
 
-    public TwitchManager() {
-        TwitchClient twitchClient = TwitchClientBuilder.builder().withEnableHelix(true).withClientId(getenv("CLIENT_ID")).withClientSecret(getenv("CLIENT_SECRET")).build();
+    TwitchManager() {
+        TwitchClient twitchClient = builder().withEnableHelix(true).withClientId(getenv("CLIENT_ID")).withClientSecret(getenv("CLIENT_SECRET")).build();
         TomlManager tomlManager = new TomlManager();
-        ArrayList<String> listName = tomlManager.getStreamers();
-        DualHashBidiMap<String, String> nameIdDict = new DualHashBidiMap<>();
 
         tomlManager.fileCleaner();
+        HashMap<String, String> nameIdDict = twitchClient.getHelix().getUsers("", null, tomlManager.getStreamers()).execute()
+                .getUsers().stream().collect(toMap(User::getId, User::getDisplayName, (a, b) -> a, HashMap::new));
 
-        UserList idByUser = twitchClient.getHelix().getUsers("", null, listName).execute();
-        idByUser.getUsers().forEach(users -> nameIdDict.put(users.getDisplayName(), users.getId()));
+        twitchClient.getHelix().getStreams("", "", "", null, null, null, new ArrayList<>(nameIdDict.keySet()), null).execute()
+                .getStreams().forEach(stream -> streamers.add(stream.getUserName()));
 
-        StreamList isOnline = twitchClient.getHelix().getStreams("", "", "", null, null, null, null, listName).execute();
-        isOnline.getStreams().forEach(stream -> streamers.add(nameIdDict.getKey(stream.getUserId())));
-
-        listName.forEach(item -> {
+        nameIdDict.values().forEach(item -> {
             if (streamers.contains(item)) {
                 streamers.remove(item);
                 streamers.add(addEmoji(item, "\u2714"));
@@ -37,13 +34,11 @@ public class TwitchManager {
         });
     }
 
-    public String addEmoji(String str, String add) {
-        StringBuilder sb = new StringBuilder(str);
-        sb.insert(str.length(), " " + add);
-        return sb.toString();
+    private static String addEmoji(String str, String add) {
+        return new StringBuilder(str).insert(str.length(), " " + add).toString();
     }
 
-    public ArrayList<String> getStreamers() {
+    ArrayList<String> getStreamers() {
         return streamers;
     }
 }

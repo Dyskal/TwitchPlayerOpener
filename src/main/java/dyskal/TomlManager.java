@@ -1,7 +1,6 @@
 package dyskal;
 
 import com.electronwill.nightconfig.core.file.FileConfig;
-import net.harawata.appdirs.AppDirsFactory;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -9,80 +8,79 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class TomlManager {
-    private final File dir = new File(AppDirsFactory.getInstance().getUserConfigDir("TwitchPlayerOpener", null, "Dyskal", true));
+import static net.harawata.appdirs.AppDirsFactory.getInstance;
+
+class TomlManager {
+    private final File dir = new File(getInstance().getUserConfigDir("TwitchPlayerOpener", null, "Dyskal", true));
     private final File file = new File(dir + "\\streamers.toml");
     private final FileConfig config = FileConfig.of(file);
     private ArrayList<String> streamers = new ArrayList<>();
     private boolean recreate = false;
 
-    public TomlManager() {
+    TomlManager() {
         try {
             makeFile();
-            config.load();
-            streamers = config.get("streamers");
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
             recreate = true;
             try {
                 makeFile();
-            } catch (Exception ex) {
+            } catch (IOException ex) {
                 ex.printStackTrace();
             }
         }
     }
 
-    public static String cleaner(String string) {
-        String last;
-        if (string.matches("^[a-zA-Z_0-9]+$")) {
-            last = string;
-        } else {
-            last = string.replaceAll("\\W+", "");
-        }
-        return last;
+    static String cleaner(String string) {
+        return string.matches("^[a-zA-Z_0-9]+$") ? string : string.replaceAll("\\W+", "");
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
-    public void makeFile() throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader(file));
-        if (!dir.exists() || !file.exists() || br.readLine() == null || recreate) {
-            ArrayList<String> placeholder = new ArrayList<>();
-            placeholder.add("placeholder");
-            dir.mkdirs();
-            file.createNewFile();
-            config.set("streamers", placeholder);
-            config.save();
-            recreate = false;
-        }
-    }
-
-    public void fileCleaner() {
-        streamers.remove(" ");
-        streamers.forEach(string -> {
-            if (!string.matches("^[a-zA-Z_0-9]+$")) {
-                streamers.set(streamers.indexOf(string), string.replaceAll("\\W+", ""));
+    private void makeFile() throws IOException {
+        if (!recreate && dir.exists() && file.exists()) {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            if (br.readLine() != null && br.readLine().isEmpty()){
+                config.load();
+                streamers = config.get("streamers");
+                return;
             }
-        });
+        }
+        ArrayList<String> placeholder = new ArrayList<>();
+        placeholder.add("placeholder");
+        dir.mkdirs();
+        file.createNewFile();
+        config.set("streamers", placeholder);
+        config.save();
+
+        config.load();
+        streamers = config.get("streamers");
+        recreate = false;
     }
 
-    public void writer() {
+    void fileCleaner() {
+        streamers.remove(" ");
+        streamers.stream().filter(string -> !string.matches("^[a-zA-Z_0-9]+$"))
+                .forEach(string -> streamers.set(streamers.indexOf(string), string.replaceAll("\\W+", "")));
+    }
+
+    private void writer() {
         config.remove("streamers");
         fileCleaner();
         config.add("streamers", streamers);
         config.save();
     }
 
-    public ArrayList<String> getStreamers() {
+    ArrayList<String> getStreamers() {
         return streamers;
     }
 
-    public void addStreamers(String newStreamer) {
+    void addStreamers(String newStreamer) {
         streamers.add(newStreamer);
         writer();
         new TwitchManager();
     }
 
-    public void removeStreamers(String newStreamer) {
+    void removeStreamers(String newStreamer) {
         streamers.remove(newStreamer.replaceAll("\\W+", ""));
         writer();
         new TwitchManager();
