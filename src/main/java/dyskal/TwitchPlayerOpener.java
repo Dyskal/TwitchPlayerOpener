@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 
 import static dyskal.TomlManager.cleaner;
 import static java.awt.Desktop.getDesktop;
@@ -26,7 +27,11 @@ class TwitchPlayerOpener extends JFrame {
     private TwitchPlayerOpener() {
         super("Twitch Player Opener");
         setPreferredSize(new Dimension(600, 400));
-        setIconImage(new ImageIcon(requireNonNull(getClass().getClassLoader().getResource("assets/icon.png"))).getImage());
+        ArrayList<Image> icons = new ArrayList<>();
+        for (String size : new String[]{"","16x16", "20x20", "24x24", "30x30", "31x31", "32x32", "40x40", "48x48", "60x60", "64x64", "96x96", "120x120", "256x256"}) {
+            icons.add(new ImageIcon(requireNonNull(getClass().getClassLoader().getResource("assets/icon"+size+".png"))).getImage());
+        }
+        setIconImages(icons);
 
         TomlManager tomlManager = new TomlManager();
 
@@ -50,6 +55,7 @@ class TwitchPlayerOpener extends JFrame {
         volumeLabel.setFont(volumeLabel.getFont().deriveFont(15f));
         volumeLabel.setAlignmentX(CENTER_ALIGNMENT);
 
+        volumeSlider.setForeground(Color.decode("#9146FF"));
         volumeSlider.setMaximumSize(new Dimension(500, 20));
         volumeSlider.addChangeListener(event -> {
             parametersUsed[2] = "&volume=" + (float) volumeSlider.getValue() / 100;
