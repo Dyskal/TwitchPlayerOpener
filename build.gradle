@@ -12,7 +12,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.formdev:flatlaf:1.2'                      //https://search.maven.org/artifact/com.formdev/flatlaf
+    implementation 'com.formdev:flatlaf:1.5'                      //https://search.maven.org/artifact/com.formdev/flatlaf
     implementation 'com.electronwill.night-config:toml:3.6.3'     //https://search.maven.org/artifact/com.electronwill.night-config/toml
     implementation ('com.github.twitch4j:twitch4j:1.5.0') {       //https://search.maven.org/artifact/com.github.twitch4j/twitch4j
         exclude group: 'ch.qos.logback', module: 'logback-classic' }
