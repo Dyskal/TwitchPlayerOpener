@@ -16,7 +16,7 @@ dependencies {
     implementation 'com.electronwill.night-config:toml:3.6.3'     //https://search.maven.org/artifact/com.electronwill.night-config/toml
     implementation ('com.github.twitch4j:twitch4j:1.5.0') {       //https://search.maven.org/artifact/com.github.twitch4j/twitch4j
         exclude group: 'ch.qos.logback', module: 'logback-classic' }
-    implementation 'org.slf4j:slf4j-nop:1.7.31'                   //https://search.maven.org/artifact/org.slf4j/slf4j-nop
+    implementation 'org.slf4j:slf4j-nop:1.7.32'                   //https://search.maven.org/artifact/org.slf4j/slf4j-nop
     implementation 'net.harawata:appdirs:1.2.1'                   //https://search.maven.org/artifact/net.harawata/appdirs
 
 }
