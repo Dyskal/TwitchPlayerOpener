@@ -86,27 +86,15 @@ class TwitchPlayerOpener extends JFrame {
             String finalUrl = "https://player.twitch.tv/?channel=" + selectedStreamer + parametersSelected;
             File chrome86 = new File(System.getenv("ProgramFiles(x86)") + "\\Google\\Chrome\\Application");
             File chrome = new File(System.getenv("ProgramFiles") + "\\Google\\Chrome\\Application");
-            if (chrome.exists()) {
-                try {
+            try {
+                if (chrome.exists()) {
                     getRuntime().exec(chrome + "\\chrome.exe" + " " + "--app=" + finalUrl + " " + "--disable-extensions");
-                } catch (IOException e) {
-                    try {
-                        getDesktop().browse(new URI(finalUrl));
-                    } catch (IOException | URISyntaxException ex) {
-                        ex.printStackTrace();
-                    }
-                }
-            } else if (chrome86.exists()) {
-                try {
+                } else if (chrome86.exists()) {
                     getRuntime().exec(chrome86 + "\\chrome.exe" + " " + "--app=" + finalUrl + " " + "--disable-extensions");
-                } catch (IOException e) {
-                    try {
-                        getDesktop().browse(new URI(finalUrl));
-                    } catch (IOException | URISyntaxException ex) {
-                        ex.printStackTrace();
-                    }
+                } else {
+                    throw new IOException();
                 }
-            } else {
+            } catch (IOException e) {
                 try {
                     getDesktop().browse(new URI(finalUrl));
                 } catch (IOException | URISyntaxException ex) {
