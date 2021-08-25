@@ -84,12 +84,12 @@ class TwitchPlayerOpener extends JFrame {
             //TODO multi/platform browser
             String parametersSelected = parametersUsed[0] + parametersUsed[1] + "&player=popout" + parametersUsed[2] + "&parent=dyskal";
             String finalUrl = "https://player.twitch.tv/?channel=" + selectedStreamer + parametersSelected;
-            File chrome64 = new File(System.getenv("ProgramFiles(x86)") + "\\Google\\Chrome\\Application");
-            File chrome32 = new File(System.getenv("ProgramFiles") + "\\Google\\Chrome\\Application");
-
-            if (chrome64.exists()) {
+            File chrome86 = new File(System.getenv("ProgramFiles(x86)") + "\\Google\\Chrome\\Application");
+            File chrome = new File(System.getenv("ProgramFiles") + "\\Google\\Chrome\\Application");
+            System.out.println("célong");
+            if (chrome.exists()) {
                 try {
-                    getRuntime().exec(chrome64 + "\\chrome.exe" + " " + "--app=" + finalUrl + " " + "--disable-extensions");
+                    getRuntime().exec(chrome + "\\chrome.exe" + " " + "--app=" + finalUrl + " " + "--disable-extensions");
                 } catch (IOException e) {
                     try {
                         getDesktop().browse(new URI(finalUrl));
@@ -97,9 +97,9 @@ class TwitchPlayerOpener extends JFrame {
                         ex.printStackTrace();
                     }
                 }
-            } else if (chrome32.exists()) {
+            } else if (chrome86.exists()) {
                 try {
-                    getRuntime().exec(chrome32 + "\\chrome.exe" + " " + "--app=" + finalUrl + " " + "--disable-extensions");
+                    getRuntime().exec(chrome86 + "\\chrome.exe" + " " + "--app=" + finalUrl + " " + "--disable-extensions");
                 } catch (IOException e) {
                     try {
                         getDesktop().browse(new URI(finalUrl));
