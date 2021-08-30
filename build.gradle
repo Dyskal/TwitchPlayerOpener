@@ -15,7 +15,7 @@ dependencies {
     implementation 'com.formdev:flatlaf:1.5'                            //https://search.maven.org/artifact/com.formdev/flatlaf
     implementation 'com.electronwill.night-config:toml:3.6.4'           //https://search.maven.org/artifact/com.electronwill.night-config/toml
     implementation 'org.slf4j:slf4j-nop:1.7.32'                         //https://search.maven.org/artifact/org.slf4j/slf4j-nop
-    implementation 'com.github.twitch4j:twitch4j-helix:1.5.0'           //https://search.maven.org/artifact/com.github.twitch4j/twitch4j-helix
+    implementation 'com.github.twitch4j:twitch4j-helix:1.5.1'           //https://search.maven.org/artifact/com.github.twitch4j/twitch4j-helix
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.12.5' //https://search.maven.org/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310
     implementation 'net.harawata:appdirs:1.2.1'                         //https://search.maven.org/artifact/net.harawata/appdirs
 }
