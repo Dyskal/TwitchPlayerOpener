@@ -12,7 +12,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.formdev:flatlaf:2.3'                            //https://search.maven.org/artifact/com.formdev/flatlaf
+    implementation 'com.formdev:flatlaf:2.4'                            //https://search.maven.org/artifact/com.formdev/flatlaf
     implementation 'com.electronwill.night-config:toml:3.6.5'           //https://search.maven.org/artifact/com.electronwill.night-config/toml
     implementation 'org.slf4j:slf4j-nop:1.7.36'                         //https://search.maven.org/artifact/org.slf4j/slf4j-nop
     implementation 'com.github.twitch4j:twitch4j-helix:1.10.0'           //https://search.maven.org/artifact/com.github.twitch4j/twitch4j-helix
