@@ -14,7 +14,7 @@ repositories {
 dependencies {
     implementation 'com.formdev:flatlaf:3.0'                            //https://search.maven.org/artifact/com.formdev/flatlaf
     implementation 'com.electronwill.night-config:toml:3.6.6'           //https://search.maven.org/artifact/com.electronwill.night-config/toml
-    implementation 'org.slf4j:slf4j-nop:2.0.6'                         //https://search.maven.org/artifact/org.slf4j/slf4j-nop
+    implementation 'org.slf4j:slf4j-nop:2.0.7'                         //https://search.maven.org/artifact/org.slf4j/slf4j-nop
     implementation 'com.github.twitch4j:twitch4j-helix:1.14.0'           //https://search.maven.org/artifact/com.github.twitch4j/twitch4j-helix
     implementation 'net.harawata:appdirs:1.2.1'                         //https://search.maven.org/artifact/net.harawata/appdirs
 }
